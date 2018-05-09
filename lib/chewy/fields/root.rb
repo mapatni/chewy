@@ -18,8 +18,8 @@ module Chewy
         @id = options.fetch(:id, options.fetch(:_id, @id))
         @parent = options.fetch(:parent, options.fetch(:_parent, @parent))
         @parent_id = options.fetch(:parent_id, @parent_id)
-        @routing_id = @options.delete(:routing_id)
-        @options.merge!(options.except(:id, :_id, :parent, :_parent, :parent_id, :type))
+        @routing_id = options.fetch(:routing_id, @routing_id)
+        @options.merge!(options.except(:id, :_id, :parent, :_parent, :parent_id, :type, :routing_id))
       end
 
       def mappings_hash
