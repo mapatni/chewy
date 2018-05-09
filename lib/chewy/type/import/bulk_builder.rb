@@ -64,6 +64,9 @@ module Chewy
           if parents
             entry[:parent] = type_root.compose_parent(object)
             parent = entry[:_id].present? && parents[entry[:_id].to_s]
+            if @type_root.routing_id
+              entry[:routing] = type_root.compose_routing(object)
+            end
           end
 
           if parent && entry[:parent].to_s != parent

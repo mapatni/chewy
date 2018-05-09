@@ -5,6 +5,7 @@ module Chewy
       attr_reader :id
       attr_reader :parent
       attr_reader :parent_id
+      attr_reader :routing_id
 
       def initialize(*)
         super
@@ -17,6 +18,7 @@ module Chewy
         @id = options.fetch(:id, options.fetch(:_id, @id))
         @parent = options.fetch(:parent, options.fetch(:_parent, @parent))
         @parent_id = options.fetch(:parent_id, @parent_id)
+        @routing_id = @options.delete(:routing_id)
         @options.merge!(options.except(:id, :_id, :parent, :_parent, :parent_id, :type))
       end
 
@@ -57,6 +59,11 @@ module Chewy
       def compose_parent(object)
         return unless parent_id
         parent_id.arity.zero? ? object.instance_exec(&parent_id) : parent_id.call(object)
+      end
+
+      def compose_routing(object)
+        return unless routing_id
+        routing_id.arity.zero? ? object.instance_exec(&routing_id) : routing_id.call(object)
       end
 
       def compose_id(object)
